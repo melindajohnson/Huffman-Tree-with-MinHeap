@@ -13,12 +13,19 @@ Huffman::Huffman(int counts[NUM_CHAR]){
    Node* array[NUM_CHAR];
    
    for(int i=0; i<NUM_CHAR; i++){
-      array[i]->c = i + '0';
+      array[i] = new Node();
+      array[i]->c = i + 'a';
       array[i]->frequency = counts[i];
       
    }
    Heap<Node> h1(array,NUM_CHAR);
    huffmanMaker(h1);
+   
+   for(int i=0; i<NUM_CHAR; i++){
+      
+   }
+   
+
       //It should then construct the code for each letter by traversing the tree and storing a string for each letter (always assign 0 to the lower weight branch and 1 to the higher weight branch).
       //The codebook is an array in the Huffman private data.
    
@@ -30,7 +37,7 @@ Huffman::Huffman(int counts[NUM_CHAR]){
  Postconditions: Outputs a bit string corresponding to the input string and its code translation
  */
 std::string Huffman::getWord(std::string in){
-   
+   return in;
 }
 /**
  //--------------------------Overloaded output operator <<  ------------------------------------//
@@ -39,7 +46,7 @@ std::string Huffman::getWord(std::string in){
  Postconditions: Outputs the letter-to-code translation table in alphabetical order
  */
 std::ostream& operator<<(std::ostream& out, const Huffman& obj1){
-   
+   return out;
 }
 /**
  //-------------------------- Destructor  for class Huffman Tree ------------------------------------//
@@ -50,6 +57,11 @@ Huffman:: ~Huffman(){
    
 }
 
+/**
+ //--------------------------huffmanMaker method ------------------------------------//
+ Preconditions:
+ Postconditions:
+ */
 void Huffman::huffmanMaker(Heap<Node>& h1) {
    while(h1.size() > 1){
      const Node* first = h1.findMin();
@@ -64,3 +76,28 @@ void Huffman::huffmanMaker(Heap<Node>& h1) {
    }
    rootPtr = const_cast<Node*>(h1.findMin());
 }
+
+/**
+ //--------------------------codeMaker method ------------------------------------//
+ Preconditions:
+ Postconditions:
+ */
+std::string Huffman::codeMaker(Node* root, std::string code){
+      // Assign 0 to left edge and recur
+   if (root->left) {
+      code = code + "0";
+      codeMaker(root->left, code);
+   }
+   
+      // Assign 1 to right edge and recur
+   if (root->right) {
+      code = code + "1";
+      codeMaker(root->right, code);
+   }
+   return code;
+}
+
+//int Huffman::isLeaf(Node* root)
+//{
+//   return !(root->left) && !(root->right);
+//}

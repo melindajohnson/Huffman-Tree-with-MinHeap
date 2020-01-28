@@ -24,21 +24,30 @@ public:
     Preconditions: None
     Postconditions: The rootPtr of the Searchtree is initialized to a nullptr
     */
-   Heap();
+   Heap(){
+      this->numElements = 0; // Heap is initially empty
+                             // this->items = ; // Empty vector
+   }
    
    /**
     //-------------------------- Copy constructor for class Heap ------------------------------------//
     Preconditions:
     Postconditions:
     */
-   Heap(const Heap& tree);
+   Heap(const Heap& tree){
+      items = tree.items;
+      numElements = tree.numElements;
+   }
    
    /**
     //-------------------------- Destructor  for class Heap ------------------------------------//
     Preconditions:  
     Postconditions: deallocate the elements stored in the Heap class
     */
-   virtual ~Heap();   //You are allowed to assume that it only has single nodes stored in it (don't have to recursively deallocate trees of nodes).
+   virtual ~Heap(){
+      items.clear();
+      numElements = 0;
+   }  //You are allowed to assume that it only has single nodes stored in it (don't have to recursively deallocate trees of nodes).
    
    /**
     //-------------------------- Overloaded assignment operator =  ------------------------------------//
@@ -46,7 +55,14 @@ public:
     Postconditions: *this is assigned the same values in the tree as right in a different memory location
     @return SearchTree which is a deep copy of the object right
     */
-   Heap operator= (const Heap& right);
+   Heap operator= (const Heap& right){
+      if (this != &right) {
+         items.clear();
+         items = right.items;
+         numElements = right.numElements;
+      }
+      return *this;
+   }
    
    /**
     //-------------------------- Parametric constructor for class Heap ------------------------------------//
@@ -54,7 +70,12 @@ public:
     Preconditions: The rootPtr points to a SearchTree containing a number of nodes in each of its left and right Subtree
     Postconditions: The rootPtr point to a new node, but the node contains the given data item and pointers to copies of the given subtrees.
     */
-   Heap(Comparable** array, int count);//
+   Heap(Comparable** array, int count){
+      for(int i=0; i<26; i++){
+         insert(array[i]);
+      }
+      heapify();
+   }//
   // These methods should assume that the Comparables being stored have their own appropriate constructors/operators/destructor defined. However, to simplify matters, you should only copy/deallocate Nodes that have pointers in the Heap (not their children). We will not use the Heap in such a way that a partial Huffman tree is copied or deallocated while in the Heap. Remember that the first element in the heap is a dummy/duplicate to simplify the implementation of various methods. This has implications for the above operations.
    
    

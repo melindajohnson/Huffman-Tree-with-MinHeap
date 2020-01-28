@@ -84,17 +84,19 @@ private:
    void huffmanMaker(Heap<Node>& h1);
    
    /**
-    //--------------------------codeBookMaker method ------------------------------------//
+    //--------------------------codeMaker method ------------------------------------//
     Preconditions:
     Postconditions:
     */
-   void codeBookMaker(int counts[NUM_CHAR]);
+   std::string codeMaker(Node* root, std::string code );
    /**
     //--------------------------wordCodeMaker method ------------------------------------//
     Preconditions:
     Postconditions:
     */
    std::string wordCodeMaker(std::string in);
+   
+   int isLeaf(Node* root);
    
 };
 #endif
