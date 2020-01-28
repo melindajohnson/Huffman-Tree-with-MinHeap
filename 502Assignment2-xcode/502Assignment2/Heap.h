@@ -71,9 +71,13 @@ public:
     Postconditions: The rootPtr point to a new node, but the node contains the given data item and pointers to copies of the given subtrees.
     */
    Heap(Comparable** array, int count){
-      for(int i=0; i<26; i++){
-         insert(array[i]);
+      items.push_back(nullptr);
+      // numElements++;
+      for(int i=0; i< count; i++){
+         items.push_back(array[i]);
+         numElements++;
       }
+      
       heapify();
    }//
   // These methods should assume that the Comparables being stored have their own appropriate constructors/operators/destructor defined. However, to simplify matters, you should only copy/deallocate Nodes that have pointers in the Heap (not their children). We will not use the Heap in such a way that a partial Huffman tree is copied or deallocated while in the Heap. Remember that the first element in the heap is a dummy/duplicate to simplify the implementation of various methods. This has implications for the above operations.
@@ -88,8 +92,10 @@ public:
       if (c == NULL) return;
       
          // Add item in position 0 (dummy position) to prevent percolating up from root
-      if (items.size() < 1) items.push_back(c);
-      else items[0] = c;
+      if (items.size() < 1)
+         items.push_back(c);
+      else
+         items[0] = c;
       
          // Ensure we have enough space
       numElements++;

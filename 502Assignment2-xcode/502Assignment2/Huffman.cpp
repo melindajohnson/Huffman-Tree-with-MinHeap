@@ -1,7 +1,15 @@
 
 #include "Huffman.h"
 
-
+bool Huffman::Node::operator<(const Node &o){
+   return (frequency < o.frequency);
+}
+bool Huffman::Node::operator>(const Node &o){
+   return (frequency > o.frequency);
+}
+bool Huffman::Node::operator==(const Node &o){
+   return (frequency == o.frequency);
+}
 /**
  //-------------------------- Parametric constructor for class Huffman ------------------------------------//
  This constructor takes the frequency for each letter from 'a' to 'z' provided in the array counts. It then construct the Huffman tree and compute the code for each character.
@@ -11,12 +19,10 @@
 Huffman::Huffman(int counts[NUM_CHAR]){
    
    Node* array[NUM_CHAR];
-   
-   for(int i=0; i<NUM_CHAR; i++){
+   for(int i=0; i<=NUM_CHAR; i++){
       array[i] = new Node();
-      array[i]->c = i + 'a';
+      array[i]->c = i + 97;
       array[i]->frequency = counts[i];
-      
    }
    Heap<Node> h1(array,NUM_CHAR);
    huffmanMaker(h1);
@@ -63,18 +69,18 @@ Huffman:: ~Huffman(){
  Postconditions:
  */
 void Huffman::huffmanMaker(Heap<Node>& h1) {
-   while(h1.size() > 1){
-     const Node* first = h1.findMin();
-      h1.deleteMin();
-     const Node* second = h1.findMin();
-      h1.deleteMin();
+   while(h1.size() > 2){
+     Node* first = h1.deleteMin();
+     Node* second = h1.deleteMin();
      Node* tempRootNode = new Node;
-      tempRootNode->left = const_cast<Node*>(first);
-      tempRootNode->right = const_cast<Node*>(second);
+      tempRootNode->frequency = first->frequency + second->frequency;
+      tempRootNode->left = first;
+      tempRootNode->right = second;
       h1.insert(tempRootNode);
       delete tempRootNode;
    }
-   rootPtr = const_cast<Node*>(h1.findMin());
+   
+   rootPtr = h1.deleteMin();
 }
 
 /**

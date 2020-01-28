@@ -43,19 +43,13 @@ private:
    
    struct Node
    {
-      char c;  //lower case letter in the huffman tree
-      long frequency = 0;  //count of occurence of a character c
+      char c = NULL;  //lower case letter in the huffman tree
+      unsigned frequency = 0 ;  //count of occurence of a character c
       struct Node* left = nullptr;
       struct Node* right = nullptr;
-      bool operator<(const Node &o){
-         return (frequency < o.frequency);
-      }
-      bool operator>(const Node &o){
-         return (frequency > o.frequency);
-      }
-      bool operator==(const Node &o){
-         return (frequency == o.frequency);
-      }
+      bool operator<(const Node &o);
+      bool operator>(const Node &o);
+      bool operator==(const Node &o);
    };
    
    Node* rootPtr; //pointer to the root Node of the Huffman tree
