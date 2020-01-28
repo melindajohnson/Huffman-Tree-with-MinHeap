@@ -69,18 +69,20 @@ Huffman:: ~Huffman(){
  Postconditions:
  */
 void Huffman::huffmanMaker(Heap<Node>& h1) {
-   while(h1.size() > 2){
+   Node* tempRootNode = nullptr ;
+   while(h1.size() > 1){
      Node* first = h1.deleteMin();
      Node* second = h1.deleteMin();
-     Node* tempRootNode = new Node;
+      tempRootNode = new Node;
       tempRootNode->frequency = first->frequency + second->frequency;
       tempRootNode->left = first;
       tempRootNode->right = second;
       h1.insert(tempRootNode);
-      delete tempRootNode;
+     //
    }
    
    rootPtr = h1.deleteMin();
+   delete tempRootNode;
 }
 
 /**

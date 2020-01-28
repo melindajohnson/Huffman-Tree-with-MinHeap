@@ -71,11 +71,8 @@ public:
     Postconditions: The rootPtr point to a new node, but the node contains the given data item and pointers to copies of the given subtrees.
     */
    Heap(Comparable** array, int count){
-      items.push_back(nullptr);
-      // numElements++;
       for(int i=0; i< count; i++){
-         items.push_back(array[i]);
-         numElements++;
+         insert(array[i]);
       }
       
       heapify();

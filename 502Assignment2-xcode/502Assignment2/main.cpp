@@ -23,8 +23,11 @@ using namespace std;
 int main() {
       // Create random counts
    int counts[NUM_CHAR];
+   int j =0;
    for (int i = 0; i < NUM_CHAR; i++) {
-      counts[i] = rand() % 1000;
+     // counts[i] = rand() % 1000;
+      counts[i] = 5 + j;
+      j++;
    }
    
       // Construct Huffman codes and display table

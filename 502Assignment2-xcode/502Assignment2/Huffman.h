@@ -5,7 +5,7 @@
 #include <string>
 #include <stdio.h>
 #include "Heap.h"
-static const int NUM_CHAR = 26;  //total numbers of characters
+static const int NUM_CHAR = 5;  //total numbers of characters
 class Huffman
 {
 
