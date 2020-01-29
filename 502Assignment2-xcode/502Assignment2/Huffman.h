@@ -5,7 +5,7 @@
 #include <string>
 #include <stdio.h>
 #include "Heap.h"
-static const int NUM_CHAR = 5;  //total numbers of characters
+static const int NUM_CHAR = 3;  //total numbers of characters
 class Huffman
 {
 
@@ -53,16 +53,10 @@ private:
    };
    
    Node* rootPtr; //pointer to the root Node of the Huffman tree
-   int codeBook[NUM_CHAR];
+   std::string codeBook[NUM_CHAR];
    
       //-------------------------- Private Helper methods  -------------------------------------------
-   /**
-    //--------------------------Inorder traversal method  ------------------------------------//
-    Preconditions: The subTreePtr points to a Huffman containing a number of nodes in each of its left and right Subtree
-    Postconditions: Prints the contents of the Huffman Tree i.e the character c and its code contained in each node in alphabetical order
-    */
-   void inorderTraversal(std::ostream& output, const Node* subTreePtr) const;
-   
+
    /**
     //--------------------------Clear method ------------------------------------//
     Preconditions: The subTreePtr points to a nullPtr  or a Node with left and right subtrees
@@ -82,15 +76,7 @@ private:
     Preconditions:
     Postconditions:
     */
-   std::string codeMaker(Node* root, std::string code );
-   /**
-    //--------------------------wordCodeMaker method ------------------------------------//
-    Preconditions:
-    Postconditions:
-    */
-   std::string wordCodeMaker(std::string in);
-   
-   int isLeaf(Node* root);
+   void codeMaker(Node* root, std::string code );
    
 };
 #endif

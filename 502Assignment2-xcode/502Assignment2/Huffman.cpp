@@ -1,5 +1,7 @@
 
 #include "Huffman.h"
+#include <iostream>
+#include <sstream>
 
 bool Huffman::Node::operator<(const Node &o){
    return (frequency < o.frequency);
@@ -10,6 +12,7 @@ bool Huffman::Node::operator>(const Node &o){
 bool Huffman::Node::operator==(const Node &o){
    return (frequency == o.frequency);
 }
+
 /**
  //-------------------------- Parametric constructor for class Huffman ------------------------------------//
  This constructor takes the frequency for each letter from 'a' to 'z' provided in the array counts. It then construct the Huffman tree and compute the code for each character.
@@ -18,32 +21,42 @@ bool Huffman::Node::operator==(const Node &o){
  */
 Huffman::Huffman(int counts[NUM_CHAR]){
    
-   Node* array[NUM_CHAR];
-   for(int i=0; i<=NUM_CHAR; i++){
-      array[i] = new Node();
-      array[i]->c = i + 97;
-      array[i]->frequency = counts[i];
+   Node** array = new Node*[NUM_CHAR];
+   for(int i=0; i< NUM_CHAR; i++){
+      Node* currentNode = new Node();
+      currentNode->c = i + 97;
+      currentNode->frequency = counts[i];
+      array[i] = currentNode;
+      // delete currentNode;
    }
+ 
    Heap<Node> h1(array,NUM_CHAR);
    huffmanMaker(h1);
    
-   for(int i=0; i<NUM_CHAR; i++){
-      
-   }
-   
-
-      //It should then construct the code for each letter by traversing the tree and storing a string for each letter (always assign 0 to the lower weight branch and 1 to the higher weight branch).
-      //The codebook is an array in the Huffman private data.
-   
+   std::string s = "";
+   codeMaker(rootPtr, s);
 }
 /**
  //--------------------------getWord method  ------------------------------------//
  This methods takes in a word to encode. All letters in the word are converted to the appropriate bit strings. Non-letters may be ignored.
- Preconditions: obj1.rootPtr must point to a Huffman tree with child nodes
+ Preconditions: obj1.rootPtr must point to a Huffman tree with child nodes and the codeBook must be created with codes for each char
  Postconditions: Outputs a bit string corresponding to the input string and its code translation
  */
 std::string Huffman::getWord(std::string in){
-   return in;
+      //Create an array of integers to hold the index value corresponding to the char in the string
+   int indexValues[in.length()];
+   int i=0;
+      //Store the index value corresponding to the char in the string in the array indexValues
+   for (char const &c: in) {
+      indexValues[i] = c-97;
+      i++;
+   }
+   std::string code; //string to hold the code of the input string
+   //Loop through indexValues array and concatenate its corresponding code to the string code
+   for(int j=0; j<in.length(); j++){
+      code = code + codeBook[indexValues[j]];
+   }
+   return code;
 }
 /**
  //--------------------------Overloaded output operator <<  ------------------------------------//
@@ -52,6 +65,10 @@ std::string Huffman::getWord(std::string in){
  Postconditions: Outputs the letter-to-code translation table in alphabetical order
  */
 std::ostream& operator<<(std::ostream& out, const Huffman& obj1){
+   for(int i=0; i<NUM_CHAR; i++){
+      char c = i + 97;
+      out << c << ": " << obj1.codeBook[i] << "\n";
+   }
    return out;
 }
 /**
@@ -60,7 +77,7 @@ std::ostream& operator<<(std::ostream& out, const Huffman& obj1){
  Postconditions: The rootptr and all subsequent pointers in the tree are deallocated
  */
 Huffman:: ~Huffman(){
-   
+   clear(rootPtr);
 }
 
 /**
@@ -69,20 +86,18 @@ Huffman:: ~Huffman(){
  Postconditions:
  */
 void Huffman::huffmanMaker(Heap<Node>& h1) {
-   Node* tempRootNode = nullptr ;
    while(h1.size() > 1){
-     Node* first = h1.deleteMin();
-     Node* second = h1.deleteMin();
-      tempRootNode = new Node;
+      Node* first = h1.deleteMin();
+      Node* second = h1.deleteMin();
+      Node* tempRootNode = new Node;
       tempRootNode->frequency = first->frequency + second->frequency;
       tempRootNode->left = first;
       tempRootNode->right = second;
       h1.insert(tempRootNode);
-     //
+      // delete tempRootNode;
    }
    
    rootPtr = h1.deleteMin();
-   delete tempRootNode;
 }
 
 /**
@@ -90,22 +105,34 @@ void Huffman::huffmanMaker(Heap<Node>& h1) {
  Preconditions:
  Postconditions:
  */
-std::string Huffman::codeMaker(Node* root, std::string code){
-      // Assign 0 to left edge and recur
-   if (root->left) {
-      code = code + "0";
-      codeMaker(root->left, code);
-   }
+void Huffman::codeMaker(Node* root, string code){
    
-      // Assign 1 to right edge and recur
-   if (root->right) {
-      code = code + "1";
-      codeMaker(root->right, code);
+   if(root == nullptr){
+      return;
    }
-   return code;
+   if(root->left!=nullptr) codeMaker(root->left, code + "0");
+   if(root->right!=nullptr) codeMaker(root->right, code + "1");
+   else{
+      int i = root->c - 97;
+      codeBook[i] = code;
+   }
 }
 
-//int Huffman::isLeaf(Node* root)
-//{
-//   return !(root->left) && !(root->right);
-//}
+/**
+ //--------------------------Clear method ------------------------------------//
+ Preconditions: The subTreePtr points to a nullPtr  or a Node with left and right subtrees
+ Postconditions: The subtree pointers and its left and right subtrees are deallocated and frees the memory
+ **/
+void Huffman::clear(Node* subTreePtr) {
+   if (subTreePtr != nullptr)
+   {
+      clear(subTreePtr->left); //recusively call left subtree
+      
+      clear(subTreePtr->right); //recusrively calls the right subtree
+      
+     // delete subTreePtr->c;
+      delete subTreePtr;
+     // subTreePtr = nullptr;
+      
+   }
+}

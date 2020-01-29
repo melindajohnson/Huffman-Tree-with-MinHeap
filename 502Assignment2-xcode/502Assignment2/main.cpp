@@ -23,11 +23,11 @@ using namespace std;
 int main() {
       // Create random counts
    int counts[NUM_CHAR];
-   int j =0;
+  // int j=0;
    for (int i = 0; i < NUM_CHAR; i++) {
-     // counts[i] = rand() % 1000;
-      counts[i] = 5 + j;
-      j++;
+//      counts[i] = 5 + j;
+//      j++;
+      counts[i] = rand() % 1000;
    }
    
       // Construct Huffman codes and display table
@@ -35,7 +35,7 @@ int main() {
    cout << code << endl;
    
       // Simple test of encoding words
-   cout << "test:  " << code.getWord("test") << endl;
-   cout << "least: " << code.getWord("least") << endl;
+  // cout << "test:  " << code.getWord("test") << endl;
+   //cout << "least: " << code.getWord("least") << endl;
    cout << endl;
 }

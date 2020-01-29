@@ -18,15 +18,15 @@ using namespace std;
 template <typename Comparable>
 class Heap {
 public:
-     
+   
    /**
     //-------------------------- Default constructor for class Heap ------------------------------------//
     Preconditions: None
     Postconditions: The rootPtr of the Searchtree is initialized to a nullptr
     */
    Heap(){
-      this->numElements = 0; // Heap is initially empty
-                             // this->items = ; // Empty vector
+      numElements = 0; // Heap is initially empty
+      items.clear; // Empty vector
    }
    
    /**
@@ -35,18 +35,22 @@ public:
     Postconditions:
     */
    Heap(const Heap& tree){
+         //PtrForNewVector = new Comparable (*somenodeptr);
       items = tree.items;
       numElements = tree.numElements;
-   }
+   }//In other words, the Heap copy constructor should make a separate, stand-alone copy of all the Comparables in the current heap such that if you make changes to the current heap (insert/delete) those changes will not carry over into the stand-alone copy.  Note that this would require Comparable to have the appropriate copy constructor/assignment operator as well as Heap has no way of knowing what's in the Comparable.
    
    /**
     //-------------------------- Destructor  for class Heap ------------------------------------//
-    Preconditions:  
+    Preconditions:
     Postconditions: deallocate the elements stored in the Heap class
     */
    virtual ~Heap(){
-      items.clear();
-      numElements = 0;
+//      for(int i =0; i<items.size();i++){
+//         items[i] = nullptr;
+//      }
+   items.clear();
+     // items.erase(items.begin()+1, items.end());
    }  //You are allowed to assume that it only has single nodes stored in it (don't have to recursively deallocate trees of nodes).
    
    /**
@@ -74,10 +78,8 @@ public:
       for(int i=0; i< count; i++){
          insert(array[i]);
       }
-      
       heapify();
-   }//
-  // These methods should assume that the Comparables being stored have their own appropriate constructors/operators/destructor defined. However, to simplify matters, you should only copy/deallocate Nodes that have pointers in the Heap (not their children). We will not use the Heap in such a way that a partial Huffman tree is copied or deallocated while in the Heap. Remember that the first element in the heap is a dummy/duplicate to simplify the implementation of various methods. This has implications for the above operations.
+   }
    
    
    /**
@@ -145,7 +147,7 @@ public:
          percolateDown(i);
    }
    
-     
+   
    /**
     //-------------------------size ------------------------------------//
     Preconditions: none
