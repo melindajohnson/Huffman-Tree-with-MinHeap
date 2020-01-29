@@ -5,7 +5,7 @@
 #include <string>
 #include <stdio.h>
 #include "Heap.h"
-static const int NUM_CHAR = 3;  //total numbers of characters
+static const int NUM_CHAR = 26;  //total numbers of characters
 class Huffman
 {
 
@@ -43,7 +43,7 @@ private:
    
    struct Node
    {
-      char c = NULL;  //lower case letter in the huffman tree
+      char c;  //lower case letter in the huffman tree
       unsigned frequency = 0 ;  //count of occurence of a character c
       struct Node* left = nullptr;
       struct Node* right = nullptr;

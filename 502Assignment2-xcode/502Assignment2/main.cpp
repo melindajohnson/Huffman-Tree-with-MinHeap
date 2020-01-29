@@ -9,7 +9,9 @@
    // Assumptions:
    //  - none
    //------------------------------------------------------------------------
-
+#define _CRTDBG_MAP_ALLOC
+#include <cstdlib>
+#include <crtdbg.h>
 #include <iostream>
 #include "Huffman.h"   // Must define NUM_CHAR to 26
 using namespace std;
@@ -21,6 +23,7 @@ using namespace std;
    // Postconditions: tests methods of the Huffman class using randomly
    //               generated character counts
 int main() {
+     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
       // Create random counts
    int counts[NUM_CHAR];
   // int j=0;
@@ -35,7 +38,7 @@ int main() {
    cout << code << endl;
    
       // Simple test of encoding words
-  // cout << "test:  " << code.getWord("test") << endl;
-   //cout << "least: " << code.getWord("least") << endl;
+   cout << "test:  " << code.getWord("test") << endl;
+  // cout << "least: " << code.getWord("least") << endl;
    cout << endl;
 }
