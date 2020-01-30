@@ -133,26 +133,26 @@ Postconditions: The subtree pointers and its left and right subtrees are dealloc
 */
 	void clear(Node* subTreePtr);
 
-/**
- //--------------------------huffmanMaker method ------------------------------------//
- Preconditions: A heap object is created with data
- Postconditions: A huffman tree is constructed
- */
+	/**
+	 //--------------------------huffmanMaker method ------------------------------------//
+	 Preconditions: A heap object is created with data
+	 Postconditions: A huffman tree is constructed
+	 */
 	void huffmanMaker(Heap<Node>& h1);
 
-/**
- //--------------------------codeMaker method ------------------------------------//
- Preconditions:A huffman tree is created with the heap class
- Postconditions: A codeBook is created using the Huffman tree
- */
+	/**
+	 //--------------------------codeMaker method ------------------------------------//
+	 Preconditions:A huffman tree is created with the heap class
+	 Postconditions: A codeBook is created using the Huffman tree
+	 */
 	void codeMaker(Node* root, std::string code);
 
-/*
- //-------------------------- Deep Copy Helper method ------------------------------------//
- Preconditions: The subTreePtr points to a nullPtr  or a Node with left and right subtrees
- Postconditions: The newTreePtr point to a copy of the parametric new Object containing new copies of its left and right subtree
- @return Node pointing to a new copy of the subTreePtr and its child nodes
- */
+	/*
+	 //-------------------------- Deep Copy Helper method ------------------------------------//
+	 Preconditions: The subTreePtr points to a nullPtr  or a Node with left and right subtrees
+	 Postconditions: The newTreePtr point to a copy of the parametric new Object containing new copies of its left and right subtree
+	 @return Node pointing to a new copy of the subTreePtr and its child nodes
+	 */
 	Node* deepCopy(Node* subTreePtr);
 };
 #endif

@@ -86,12 +86,12 @@ Huffman::Huffman(const Huffman& obj1) {
  This constructor takes the frequency of each letter from 'a' to 'z' provided in the array counts.
  It then constructs the Huffman tree and computes the code for each character.
  Preconditions: None
- Postconditions: Huffman tree is created using the Heap class. 
+ Postconditions: Huffman tree is created using the Heap class.
  Code for each letter in the counts array is constructed as a string and stored in an array called codeBook
  **/
 Huffman::Huffman(const int counts[NUM_CHAR]) {
 
-    //A Node array to hold all individual node with character c and frequency corresponding to the input array
+	//A Node array to hold all individual node with character c and frequency corresponding to the input array
 	Node* array[NUM_CHAR];
 	for (int i = 0; i < NUM_CHAR; i++) {
 		Node* currentNode = new Node();
@@ -130,13 +130,13 @@ std::string Huffman::getWord(const std::string in) {
 /**
  //--------------------------Overloaded output operator <<  ------------------------------------//
  Outputs the letter-to-code translation table with one letter per line (in alphabetical order)
- followed by a space and the binary encoding from the Huffman algorithm 
+ followed by a space and the binary encoding from the Huffman algorithm
  Preconditions: obj1.rootPtr must point to a Huffman tree with child nodes
  Postconditions: Outputs the letter-to-code translation table in alphabetical order
  */
 std::ostream& operator<<(std::ostream& out, const Huffman& obj1) {
 	for (int i = 0; i < NUM_CHAR; i++) {
-		char c = i + 97; 
+		char c = i + 97;
 		out << c << ": " << obj1.codeBook[i] << "\n";
 	}
 	return out;
@@ -159,13 +159,8 @@ void Huffman::clear(Node* subTreePtr) {
 	if (subTreePtr != nullptr)
 	{
 		clear(subTreePtr->left); //recusively call left subtree
-
 		clear(subTreePtr->right); //recusrively calls the right subtree
-
-	   // delete subTreePtr->c;
 		delete subTreePtr;
-		// subTreePtr = nullptr;
-
 	}
 }
 
@@ -176,11 +171,11 @@ void Huffman::clear(Node* subTreePtr) {
  */
 void Huffman::huffmanMaker(Heap<Node>& h1) {
 	while (h1.size() > 1) {
-		Node* first = h1.deleteMin(); 
+		Node* first = h1.deleteMin();
 		Node* second = h1.deleteMin();
 		Node* tempRootNode = new Node; //create a new parent node
 		//set the frequency of the parent node to the sum of the frequency of its child nodes
-		tempRootNode->frequency = first->frequency + second->frequency; 
+		tempRootNode->frequency = first->frequency + second->frequency;
 		tempRootNode->left = first; //set the parents left child
 		tempRootNode->right = second;  //set the parents right child
 		h1.insert(tempRootNode); //insert the newly created tree inside the heap while maintaining the heap order
@@ -209,7 +204,7 @@ void Huffman::codeMaker(Node* root, string code) {
 /*
  //-------------------------- Deep Copy Helper method ------------------------------------//
  Preconditions: The subTreePtr points to a nullPtr  or a Node with left and right subtrees
- Postconditions: The newTreePtr point to a copy of the parametric new Object containing new copies of its left and right subtree 
+ Postconditions: The newTreePtr point to a copy of the parametric new Object containing new copies of its left and right subtree
  @return Node pointing to a new copy of the subTreePtr and its child nodes
  */
 Huffman::Node* Huffman::deepCopy(Node* subTreePtr) {
