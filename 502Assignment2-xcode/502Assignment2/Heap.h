@@ -7,14 +7,15 @@
    //   Implements a priority queue with the following methods:
    //      insert, deleteMin, findMin, heapify
    //  The heap is stored in a vector (see the CSS 502 lecture notes)
+//Additionally has a default constructor, copy constructor, parametric constructor and a destructor
    //  Assumptions:
    //    Can only store data for which operator< exists
    //    (hence the Comparable type variable)
+
    //--------------------------------------------------------------------
 
 #include <vector>
 using namespace std;
-
 template <typename Comparable>
 class Heap {
 public:
@@ -22,7 +23,7 @@ public:
    /**
     //-------------------------- Default constructor for class Heap ------------------------------------//
     Preconditions: None
-    Postconditions: The rootPtr of the Searchtree is initialized to a nullptr
+    Postconditions: The vector is cleared and numelements is set to 0
     */
    Heap(){
       numElements = 0; // Heap is initially empty
@@ -31,39 +32,39 @@ public:
    
    /**
     //-------------------------- Copy constructor for class Heap ------------------------------------//
-    Preconditions:
-    Postconditions:
+    Preconditions: A heap object is created with the vector items and numelements
+    Postconditions: A deep copy of the object is created
     */
    Heap(const Heap& tree){
-         //PtrForNewVector = new Comparable (*somenodeptr);
-      items = tree.items;
-      numElements = tree.numElements;
-   }//In other words, the Heap copy constructor should make a separate, stand-alone copy of all the Comparables in the current heap such that if you make changes to the current heap (insert/delete) those changes will not carry over into the stand-alone copy.  Note that this would require Comparable to have the appropriate copy constructor/assignment operator as well as Heap has no way of knowing what's in the Comparable.
+       items.clear();
+       for (int i = 0; i < tree.size(); i++) {
+           insert(new Comparable(*tree.items[i]));
+       }
+    heapify();
+   }
    
    /**
     //-------------------------- Destructor  for class Heap ------------------------------------//
-    Preconditions:
+    Preconditions:A heap object is created with the vector items and numelements
     Postconditions: deallocate the elements stored in the Heap class
     */
    virtual ~Heap(){
-//      for(int i =0; i<items.size();i++){
-//         items[i] = nullptr;
-//      }
    items.clear();
-     // items.erase(items.begin()+1, items.end());
-   }  //You are allowed to assume that it only has single nodes stored in it (don't have to recursively deallocate trees of nodes).
+   }  
    
    /**
     //-------------------------- Overloaded assignment operator =  ------------------------------------//
-    Preconditions: The right.rootPtr points to a SearchTree containing a number of nodes
-    Postconditions: *this is assigned the same values in the tree as right in a different memory location
-    @return SearchTree which is a deep copy of the object right
+    Preconditions: A heap object is created with the vector items and numelements
+    Postconditions: *this is assigned the same data as in the right object but at a different memory location
+    @return Heap object which is a deep copy of the object right
     */
-   Heap operator= (const Heap& right){
+   const Heap operator= (const Heap& right){
       if (this != &right) {
          items.clear();
-         items = right.items;
-         numElements = right.numElements;
+         for (int i = 0; i < right.size(); i++) {
+             insert(new Comparable(*right.items[i]));
+         }
+         heapify();
       }
       return *this;
    }
@@ -71,8 +72,8 @@ public:
    /**
     //-------------------------- Parametric constructor for class Heap ------------------------------------//
     Constructor that takes an array of Comparables and constructs a Heap using the (supplied) heapify method.
-    Preconditions: The rootPtr points to a SearchTree containing a number of nodes in each of its left and right Subtree
-    Postconditions: The rootPtr point to a new node, but the node contains the given data item and pointers to copies of the given subtrees.
+    Preconditions: An array of Comparables is created
+    Postconditions: A new Heap object is created with the provided array of Comparables
     */
    Heap(Comparable** array, int count){
       for(int i=0; i< count; i++){
@@ -185,6 +186,8 @@ private:
    
    int numElements = 0;         // Number of elements in the heap
    vector <Comparable *> items;   // The elements in the heap
+
+   
 };
 
 
